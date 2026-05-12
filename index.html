@@ -21,29 +21,27 @@ body {
     background-position: center;
     color: white;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 
-.content {
-    padding: 20px;
-}
-
 h1 {
     font-size: 2.5em;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
 
 #countdown {
     font-size: 2em;
+    margin-bottom: 25px;
     text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
 
 .time-box {
     display: inline-block;
-    margin: 8px 14px;
+    margin: 8px 12px;
 }
 
 .label {
@@ -51,58 +49,29 @@ h1 {
     opacity: 0.85;
 }
 
-#soundToggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 18px;
-    border-radius: 30px;
-    border: none;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
+/* Audio player styling */
+audio {
+    width: 260px;
+    margin-top: 10px;
+    opacity: 0.85;
 }
 </style>
 </head>
 
 <body>
 
-<div class="content">
-    <h1>Dillon‑Layman Puerto Rico Adventure 2026</h1>
-    <div id="countdown"></div>
-</div>
+<h1>Dillon‑Layman Puerto Rico Adventure 2026</h1>
 
-<button id="soundToggle">🌊 Play Ocean Sounds</button>
+<div id="countdown"></div>
 
-<audio id="oceanSound" loop muted playsinline>
+<!-- ✅ Native audio controls (mobile-safe) -->
+<audio controls loop playsinline>
     https://cdn.pixabay.com/download/audio/2021/09/20/audio_7c9fa1c7c1.mp3
+    Your browser does not support audio.
 </audio>
 
 <script>
 const targetDate = new Date("July 3, 2026 00:00:00").getTime();
-const oceanSound = document.getElementById("oceanSound");
-const soundToggle = document.getElementById("soundToggle");
-
-let soundStarted = false;
-
-soundToggle.addEventListener("click", async () => {
-    if (!soundStarted) {
-        try {
-            oceanSound.muted = true;
-            await oceanSound.play();   // ✅ allowed on mobile
-            oceanSound.muted = false;  // ✅ unmute AFTER play
-            soundToggle.textContent = "⏸ Pause Ocean Sounds";
-            soundStarted = true;
-        } catch (e) {
-            alert("Tap again to enable sound");
-        }
-    } else {
-        oceanSound.pause();
-        soundToggle.textContent = "🌊 Play Ocean Sounds";
-        soundStarted = false;
-    }
-});
 
 function updateCountdown() {
     const now = new Date().getTime();
