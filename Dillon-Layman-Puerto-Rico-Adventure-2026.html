@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dillon-Layman Puerto Rico Adventure 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+body {
+    background:
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.container {
+    background: rgba(0,0,0,0.25);
+    padding: 28px 36px;
+    border-radius: 16px;
+    backdrop-filter: blur(4px);
+    max-width: 90%;
+}
+h1 {
+    font-size: 2.2em;
+    margin-bottom: 14px;
+}
+#countdown {
+    font-size: 1.9em;
+    letter-spacing: 1px;
+}
+.label {
+    font-size: 0.75em;
+    opacity: 0.8;
+}
+.time-box {
+    display: inline-block;
+    margin: 8px 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Dillon-Layman Puerto Rico Adventure 2026</h1>
+    <div id="countdown"></div>
+</div>
+
+<script>
+const targetDate = new Date("July 3, 2026 00:00:00").getTime();
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "It’s Adventure Time!";
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerHTML = `
+        <div class="time-box">${days}<div class="label">Days</div></div>
+        <div class="time-box">${hours}<div class="label">Hours</div></div>
+        <div class="time-box">${minutes}<div class="label">Minutes</div></div>
+        <div class="time-box">${seconds}<div class="label">Seconds</div></div>
+    `;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
