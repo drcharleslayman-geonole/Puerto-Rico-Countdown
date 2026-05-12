@@ -10,9 +10,11 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
+    overflow: hidden;
 }
 
+/* Beach background */
 body {
     background:
         linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
@@ -21,27 +23,31 @@ body {
     background-position: center;
     color: white;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 
+/* Floating content */
+.content {
+    z-index: 2;
+    padding: 20px;
+}
+
 h1 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
+    font-size: 2.6em;
+    margin-bottom: 20px;
     text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
 
 #countdown {
-    font-size: 2em;
-    margin-bottom: 25px;
+    font-size: 2.1em;
     text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
 
 .time-box {
     display: inline-block;
-    margin: 8px 12px;
+    margin: 8px 18px;
 }
 
 .label {
@@ -49,26 +55,47 @@ h1 {
     opacity: 0.85;
 }
 
-/* Audio player styling */
-audio {
-    width: 260px;
-    margin-top: 10px;
-    opacity: 0.85;
+/* 🌊 Wave Animation */
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 140px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 100% 100% 0 0;
+    animation: waveMove 20s linear infinite;
+    z-index: 1;
+}
+
+.wave.wave2 {
+    height: 165px;
+    opacity: 0.12;
+    animation-duration: 32s;
+    animation-direction: reverse;
+}
+
+@keyframes waveMove {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
 }
 </style>
 </head>
 
 <body>
 
-<h1>Dillon‑Layman Puerto Rico Adventure 2026</h1>
+<div class="content">
+    <h1>Dillon‑Layman Puerto Rico Adventure 2026</h1>
+    <div id="countdown"></div>
+</div>
 
-<div id="countdown"></div>
-
-<!-- ✅ Native audio controls (mobile-safe) -->
-<audio controls loop playsinline>
-    https://cdn.pixabay.com/download/audio/2021/09/20/audio_7c9fa1c7c1.mp3
-    Your browser does not support audio.
-</audio>
+<!-- Animated waves -->
+<div class="wave"></div>
+<div class="wave wave2"></div>
 
 <script>
 const targetDate = new Date("July 3, 2026 00:00:00").getTime();
@@ -78,27 +105,25 @@ function updateCountdown() {
     const diff = targetDate - now;
 
     if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "✈️ It’s Adventure Time! 🌴";
+        document.getElementById("countdown").innerHTML =
+            "✈️ It’s Adventure Time! 🌴";
         return;
     }
 
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
 
     document.getElementById("countdown").innerHTML = `
         <div class="time-box">${days}<div class="label">Days</div></div>
         <div class="time-box">${hours}<div class="label">Hours</div></div>
         <div class="time-box">${minutes}<div class="label">Minutes</div></div>
-        <div class="time-box">${seconds}<div class="label">Seconds</div></div>
     `;
 }
 
 updateCountdown();
-setInterval(updateCountdown, 1000);
+setInterval(updateCountdown, 60000); // update once per minute
 </script>
 
 </body>
 </html>
- 
