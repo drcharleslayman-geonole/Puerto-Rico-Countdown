@@ -10,7 +10,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 body {
@@ -19,7 +19,6 @@ body {
         url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     color: white;
     display: flex;
     align-items: center;
@@ -32,14 +31,13 @@ body {
 }
 
 h1 {
-    font-size: 2.6em;
+    font-size: 2.5em;
     margin-bottom: 20px;
     text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
 
 #countdown {
-    font-size: 2.1em;
-    letter-spacing: 1px;
+    font-size: 2em;
     text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
 
@@ -55,21 +53,15 @@ h1 {
 
 #soundToggle {
     position: fixed;
-    bottom: 22px;
-    right: 22px;
+    bottom: 20px;
+    right: 20px;
     padding: 12px 18px;
-    font-size: 14px;
     border-radius: 30px;
     border: none;
-    background: rgba(0,0,0,0.55);
+    background: rgba(0,0,0,0.6);
     color: white;
+    font-size: 14px;
     cursor: pointer;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-#soundToggle:hover {
-    background: rgba(0,0,0,0.75);
 }
 </style>
 </head>
@@ -83,28 +75,33 @@ h1 {
 
 <button id="soundToggle">🌊 Play Ocean Sounds</button>
 
-<audio id="oceanSound" loop preload="auto">
+<audio id="oceanSound" loop muted playsinline>
     https://cdn.pixabay.com/download/audio/2021/09/20/audio_7c9fa1c7c1.mp3
-    Your browser does not support the audio element.
 </audio>
 
 <script>
 const targetDate = new Date("July 3, 2026 00:00:00").getTime();
-
 const oceanSound = document.getElementById("oceanSound");
 const soundToggle = document.getElementById("soundToggle");
-let soundPlaying = false;
 
-soundToggle.addEventListener("click", () => {
-    if (!soundPlaying) {
-        oceanSound.currentTime = 0;
-        oceanSound.play();
-        soundToggle.textContent = "⏸ Pause Ocean Sounds";
+let soundStarted = false;
+
+soundToggle.addEventListener("click", async () => {
+    if (!soundStarted) {
+        try {
+            oceanSound.muted = true;
+            await oceanSound.play();   // ✅ allowed on mobile
+            oceanSound.muted = false;  // ✅ unmute AFTER play
+            soundToggle.textContent = "⏸ Pause Ocean Sounds";
+            soundStarted = true;
+        } catch (e) {
+            alert("Tap again to enable sound");
+        }
     } else {
         oceanSound.pause();
         soundToggle.textContent = "🌊 Play Ocean Sounds";
+        soundStarted = false;
     }
-    soundPlaying = !soundPlaying;
 });
 
 function updateCountdown() {
@@ -112,8 +109,7 @@ function updateCountdown() {
     const diff = targetDate - now;
 
     if (diff <= 0) {
-        document.getElementById("countdown").innerHTML =
-            "✈️ It’s Adventure Time! 🌴";
+        document.getElementById("countdown").innerHTML = "✈️ It’s Adventure Time! 🌴";
         return;
     }
 
