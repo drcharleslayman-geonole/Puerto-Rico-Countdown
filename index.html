@@ -85,6 +85,7 @@ h1 {
 
 <audio id="oceanSound" loop preload="auto">
     https://cdn.pixabay.com/download/audio/2021/09/20/audio_7c9fa1c7c1.mp3
+    Your browser does not support the audio element.
 </audio>
 
 <script>
@@ -95,12 +96,13 @@ const soundToggle = document.getElementById("soundToggle");
 let soundPlaying = false;
 
 soundToggle.addEventListener("click", () => {
-    if (soundPlaying) {
-        oceanSound.pause();
-        soundToggle.textContent = "🌊 Play Ocean Sounds";
-    } else {
+    if (!soundPlaying) {
+        oceanSound.currentTime = 0;
         oceanSound.play();
         soundToggle.textContent = "⏸ Pause Ocean Sounds";
+    } else {
+        oceanSound.pause();
+        soundToggle.textContent = "🌊 Play Ocean Sounds";
     }
     soundPlaying = !soundPlaying;
 });
