@@ -4,16 +4,19 @@
 <meta charset="UTF-8">
 <title>Dillon-Layman Puerto Rico Adventure 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
+
+/* Full-screen beach background */
 body {
     background:
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
         url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
     background-size: cover;
     background-position: center;
@@ -24,47 +27,97 @@ body {
     justify-content: center;
     text-align: center;
 }
-.container {
-    background: rgba(0,0,0,0.25);
-    padding: 28px 36px;
-    border-radius: 16px;
-    backdrop-filter: blur(4px);
-    max-width: 90%;
+
+/* Floating content (no box) */
+.content {
+    padding: 20px;
 }
+
+/* Title */
 h1 {
-    font-size: 2.2em;
-    margin-bottom: 14px;
+    font-size: 2.6em;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
+
+/* Countdown */
 #countdown {
-    font-size: 1.9em;
+    font-size: 2.1em;
     letter-spacing: 1px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.7);
 }
-.label {
-    font-size: 0.75em;
-    opacity: 0.8;
-}
+
+/* Time units */
 .time-box {
     display: inline-block;
-    margin: 8px 10px;
+    margin: 8px 14px;
+}
+
+.label {
+    font-size: 0.75em;
+    opacity: 0.85;
+}
+
+/* Ocean sound button */
+#soundToggle {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    padding: 12px 18px;
+    font-size: 14px;
+    border-radius: 30px;
+    border: none;
+    background: rgba(0,0,0,0.55);
+    color: white;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+#soundToggle:hover {
+    background: rgba(0,0,0,0.75);
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Dillon-Layman Puerto Rico Adventure 2026</h1>
+<div class="content">
+    <h1>Dillon‑Layman Puerto Rico Adventure 2026</h1>
     <div id="countdown"></div>
 </div>
 
+<button id="soundToggle">🌊 Play Ocean Sounds</button>
+
+<audio id="oceanSound" loop>
+    https://cdn.pixabay.com/download/audio/2021/09/20/audio_7c9fa1c7c1.mp3
+</audio>
+
 <script>
 const targetDate = new Date("July 3, 2026 00:00:00").getTime();
+
+const oceanSound = document.getElementById("oceanSound");
+const soundToggle = document.getElementById("soundToggle");
+let soundPlaying = false;
+
+soundToggle.onclick = () => {
+    if (soundPlaying) {
+        oceanSound.pause();
+        soundToggle.textContent = "🌊 Play Ocean Sounds";
+    } else {
+        oceanSound.play();
+        soundToggle.textContent = "⏸ Pause Ocean Sounds";
+    }
+    soundPlaying = !soundPlaying;
+};
 
 function updateCountdown() {
     const now = new Date().getTime();
     const diff = targetDate - now;
 
     if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "It’s Adventure Time!";
+        document.getElementById("countdown").innerHTML =
+            "✈️ It’s Adventure Time! 🌴";
         return;
     }
 
@@ -87,3 +140,4 @@ setInterval(updateCountdown, 1000);
 
 </body>
 </html>
+ 
